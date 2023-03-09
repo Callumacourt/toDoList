@@ -1,6 +1,5 @@
 import TaskCreator from './taskHandler';
-import { ProjectCreator, projects } from './projectHandler';
+import { ProjectCreator, projects, projectSelector } from './projectHandler';
 
-const chores = new ProjectCreator('chores');
-const annoying = new ProjectCreator('bad project');
-console.log(projects);
+const wash = new TaskCreator('wash self', 'washing self', 'now', 'severe');
+console.log(wash);
