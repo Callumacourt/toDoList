@@ -2,6 +2,8 @@ import { projectSelector } from './projectHandler';
 
 export const allTasks = [];
 
+projectSelector();
+
 function TaskCreator(title, description, dueDate, priority) {
   const currentProject = projectSelector();
   this.title = title;

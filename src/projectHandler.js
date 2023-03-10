@@ -1,4 +1,4 @@
-export const projects = ['home'];
+export const projects = ['home', 'important', 'health'];
 
 export function ProjectCreator(projectName) {
   this.projectName = projectName;
@@ -6,6 +6,8 @@ export function ProjectCreator(projectName) {
 }
 
 export function projectSelector() {
-  const currentProject = prompt('Project name');
-  return currentProject;
+  const defaultProject = projects[0];
+  const currentProject = defaultProject;
+
+  return () => currentProject;
 }
