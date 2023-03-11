@@ -1,9 +1,9 @@
 import TaskCreator from './taskHandler';
-import { ProjectCreator, projects, projectSelector } from './projectHandler';
-import { projectChangeButton } from './projectsDom';
+import { getCurrentProject, handleProjectChange } from './projectsDom';
 
-projectChangeButton();
-projectSelector();
+handleProjectChange();
+
+const currentProject = getCurrentProject();
+export default currentProject;
 
 const wash = new TaskCreator('wash self', 'washing self', 'now', 'severe');
-console.log(wash);
