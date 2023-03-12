@@ -1,4 +1,7 @@
-export const projects = [{ name: 'Home', tasks: [] }];
+export const projects = [
+  { name: 'Home', tasks: [] },
+  { name: 'Health', tasks: [] },
+];
 
 export function createProject(name) {
   projects.push({ name, tasks: [] });
