@@ -1,9 +1,10 @@
+/* eslint-disable no-loop-func */
 import { projects, selectProject } from './projects';
 
 let selectedProject = null;
 
-function updateSelectedProject(projectName) {
-  selectedProject = projectName;
+function updateSelectedProject(project) {
+  selectedProject = project;
 }
 
 export default function createPageLayout() {
@@ -29,13 +30,26 @@ export default function createPageLayout() {
     projectViewer.appendChild(projectsT);
 
     projectsT.addEventListener('click', () => {
-      selectProject(projects[i].name, updateSelectedProject);
+      selectProject(projects[i], updateSelectedProject);
+
+      taskViewer.innerHTML = ''; // Clear previous tasks
+
+      for (let j = 0; j < selectedProject.tasks.length; j++) {
+        const task = document.createElement('li');
+        task.innerHTML = selectedProject.tasks[j].title;
+        taskViewer.appendChild(task);
+      }
     });
   }
 
   const taskViewer = document.createElement('div');
   taskViewer.classList.add('taskViewer');
   main.appendChild(taskViewer);
+
+  const tasks = document.createElement('li');
+  if (selectedProject === 'Home') {
+    tasks.innerHTML = projects[0].tasks;
+  }
 
   const footer = document.createElement('div');
   footer.classList.add('footer');

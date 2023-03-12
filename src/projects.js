@@ -7,8 +7,8 @@ export function createProject(name) {
   projects.push({ name, tasks: [] });
 }
 
-export function selectProject(projectName, callback) {
-  callback(projectName);
+export function selectProject(project, callback) {
+  callback(project);
 }
 
 export function addTaskToProject(projectName, task) {
