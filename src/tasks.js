@@ -8,4 +8,8 @@ export function TaskCreator(title, description, dueDate, priority) {
   this.completeTask = function () {
     this.completed = true;
   };
+
+  this.changePriority = function (newPriority) {
+    this.priority = newPriority;
+  };
 }
