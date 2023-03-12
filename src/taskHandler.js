@@ -1,13 +1,19 @@
-import currentProject from './index.js';
-import { projects } from './projectHandler';
-
-export const allTasks = [];
-
-function TaskCreator(title, description, dueDate, priority) {
+function createTask(title, description, dueDate, priority) {
   this.title = title;
   this.description = description;
   this.dueDate = dueDate;
   this.priority = priority;
 }
 
-export default TaskCreator;
+export const projects = [];
+
+export function createProject(name) {
+  projects.push({ name, tasks: [] });
+}
+
+function addTaskToProject(projectName, task) {
+  const project = projects.find(p => p.name === projectName);
+  if (project) {
+    project.tasks.push(task);
+  }
+}

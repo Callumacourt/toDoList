@@ -1,9 +1,9 @@
-import TaskCreator from './taskHandler';
-import { getCurrentProject, handleProjectChange } from './projectsDom';
+import {
+  createProject,
+  projects,
+  createTask,
+  addTaskToProject,
+} from './taskHandler';
 
-handleProjectChange();
-
-const currentProject = getCurrentProject();
-export default currentProject;
-
-const wash = new TaskCreator('wash self', 'washing self', 'now', 'severe');
+createProject('Home');
+createProject('My Tasks');
