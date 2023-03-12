@@ -1,4 +1,10 @@
-import { projects } from './projects';
+import { projects, selectProject } from './projects';
+
+let selectedProject = null;
+
+function updateSelectedProject(projectName) {
+  selectedProject = projectName;
+}
 
 export default function createPageLayout() {
   const header = document.createElement('div');
@@ -18,9 +24,13 @@ export default function createPageLayout() {
   main.appendChild(projectViewer);
 
   for (let i = 0; i < projects.length; i++) {
-    const projectsT = document.createElement('li');
+    const projectsT = document.createElement('button');
     projectsT.textContent = projects[i].name;
     projectViewer.appendChild(projectsT);
+
+    projectsT.addEventListener('click', () => {
+      selectProject(projects[i].name, updateSelectedProject);
+    });
   }
 
   const taskViewer = document.createElement('div');
