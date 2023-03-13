@@ -46,11 +46,6 @@ export default function createPageLayout() {
   taskViewer.classList.add('taskViewer');
   main.appendChild(taskViewer);
 
-  const tasks = document.createElement('li');
-  if (selectedProject === 'Home') {
-    tasks.innerHTML = projects[0].tasks;
-  }
-
   const footer = document.createElement('div');
   footer.classList.add('footer');
   document.body.appendChild(footer);
