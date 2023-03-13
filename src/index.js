@@ -4,8 +4,12 @@ import {
   addTaskToProject,
   deleteProject,
 } from './projects';
+
 import TaskCreator from './tasks';
+
 import createPageLayout from './domHandler';
+
+import './style.css';
 
 createPageLayout();
 

@@ -20,9 +20,13 @@ export default function createPageLayout() {
   main.classList.add('main');
   document.body.appendChild(main);
 
+  const projectsWrapper = document.createElement('div');
+  projectsWrapper.classList.add('projectWrapper');
+  main.appendChild(projectsWrapper);
+
   const projectViewer = document.createElement('div');
   projectViewer.classList.add('projectViewer');
-  main.appendChild(projectViewer);
+  projectsWrapper.appendChild(projectViewer);
 
   for (let i = 0; i < projects.length; i++) {
     const projectsT = document.createElement('button');
@@ -34,17 +38,23 @@ export default function createPageLayout() {
 
       taskViewer.innerHTML = ''; // Clear previous tasks
 
-      for (let j = 0; j < selectedProject.tasks.length; j++) {
-        const task = document.createElement('li');
-        task.innerHTML = selectedProject.tasks[j].title;
-        taskViewer.appendChild(task);
+      if (selectedProject.tasks !== undefined) {
+        for (let j = 0; j < selectedProject.tasks.length; j++) {
+          const task = document.createElement('li');
+          task.innerHTML = selectedProject.tasks[j].title;
+          taskViewer.appendChild(task);
+        }
       }
     });
   }
 
+  const taskWrapper = document.createElement('div');
+  taskWrapper.classList.add('taskWrapper');
+  main.appendChild(taskWrapper);
+
   const taskViewer = document.createElement('div');
   taskViewer.classList.add('taskViewer');
-  main.appendChild(taskViewer);
+  taskWrapper.appendChild(taskViewer);
 
   const footer = document.createElement('div');
   footer.classList.add('footer');

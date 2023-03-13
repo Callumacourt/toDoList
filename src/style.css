@@ -1,0 +1,72 @@
+* {
+  list-style-type: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  height: 15vh;
+  font-size: 1.8rem;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(204, 204, 255, 1);
+  color: white;
+  padding-left: 3vw;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  height: 70vh;
+}
+
+.projectViewer {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding-left: 3vw;
+  padding-right: 2vw;
+  background-color: rgba(204, 204, 255, 1);
+}
+
+.projectViewer,
+.taskViewer {
+  padding-top: 5vh;
+  height: 93%;
+}
+
+.taskViewer {
+  padding-left: 2vw;
+}
+
+.taskWrapper {
+}
+
+.taskViewer {
+  background-color: rgba(204, 204, 255, 0.8);
+}
+
+.projectViewer button {
+  width: 20vw;
+  display: flex;
+  padding: 1vmin;
+  border: none;
+  color: black;
+  background-color: white;
+  border-radius: 1rem;
+}
+
+.projectViewer button:hover,
+button:active {
+  opacity: 0.8;
+  background-color: rgba(255, 253, 208, 1);
+}
+
+.footer {
+  height: 14vh;
+  background-color: lightgray;
+}
