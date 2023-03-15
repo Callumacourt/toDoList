@@ -1,5 +1,5 @@
 /* eslint-disable no-loop-func */
-import { projects, selectProject } from './projects';
+import { projects, selectProject, createProject } from './projects';
 
 let selectedProject = null;
 
@@ -28,13 +28,13 @@ export default function createPageLayout() {
   projectViewer.classList.add('projectViewer');
   projectsWrapper.appendChild(projectViewer);
 
-  for (let i = 0; i < projects.length; i++) {
-    const projectsT = document.createElement('button');
-    projectsT.textContent = projects[i].name;
-    projectViewer.appendChild(projectsT);
+  function appendProject(project) {
+    const projectButton = document.createElement('button');
+    projectButton.textContent = project.name;
+    projectViewer.appendChild(projectButton);
 
-    projectsT.addEventListener('click', () => {
-      selectProject(projects[i], updateSelectedProject);
+    projectButton.addEventListener('click', () => {
+      selectProject(project, updateSelectedProject);
 
       taskViewer.innerHTML = ''; // Clear previous tasks
 
@@ -47,6 +47,61 @@ export default function createPageLayout() {
       }
     });
   }
+
+  function appendProjects() {
+    for (let i = 0; i < projects.length; i++) {
+      appendProject(projects[i]);
+    }
+  }
+
+  appendProjects();
+
+  let inputAddedFlag = false;
+
+  const addProjectButton = document.createElement('button');
+  addProjectButton.innerHTML = '+ Add project';
+  addProjectButton.classList.add('inactive');
+
+  addProjectButton.addEventListener('click', () => {
+    if (inputAddedFlag === false) {
+      addProjectButton.innerHTML = '';
+    }
+    addProjectButton.classList.remove('inactive');
+    addProjectButton.classList.add('active');
+
+    const inputText = document.createElement('input');
+    projectViewer.appendChild(inputText);
+
+    const childButtonWrapper = document.createElement('div');
+    childButtonWrapper.classList.add('childBtnWrapper');
+    projectViewer.appendChild(childButtonWrapper);
+
+    const confirmInput = document.createElement('button');
+    confirmInput.classList.add('confirmInputBtn');
+    confirmInput.innerHTML = '✓';
+    childButtonWrapper.appendChild(confirmInput);
+
+    const cancelInput = document.createElement('button');
+    cancelInput.innerHTML = 'X';
+    cancelInput.classList.add('cancelInputBtn');
+    childButtonWrapper.appendChild(cancelInput);
+
+    confirmInput.addEventListener('click', () => {
+      const newProjectName = inputText.value;
+      createProject(newProjectName);
+      projectViewer.innerHTML = '';
+      appendProjects();
+      projectViewer.appendChild(addProjectButton);
+      inputAddedFlag = true;
+      addProjectButton.classList.remove('active');
+      addProjectButton.classList.add('inactive');
+      addProjectButton.innerHTML = ' + Add project';
+    });
+
+    inputAddedFlag = true;
+  });
+
+  projectViewer.appendChild(addProjectButton);
 
   const taskWrapper = document.createElement('div');
   taskWrapper.classList.add('taskWrapper');
