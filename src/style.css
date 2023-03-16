@@ -7,7 +7,7 @@ body {
   padding: 0;
 }
 
-.header {
+.headerContainer {
   height: 15vh;
   font-size: 1.8rem;
   padding: 5px;
@@ -23,74 +23,14 @@ body {
   display: grid;
   grid-template-columns: 1fr 4fr;
   height: 70vh;
-}
-
-.projectViewer {
-  display: flex;
-  flex-direction: column;
-  gap: 2vh;
-  padding-left: 3vw;
-  padding-right: 2vw;
   background-color: rgba(204, 204, 255, 1);
 }
 
-.projectViewer,
-.taskViewer {
-  padding-top: 5vh;
-  height: 93%;
+.tasksContainer {
+  background-color: lavenderblush;
 }
 
-.taskViewer {
-  padding-left: 2vw;
-}
-
-.active {
-  display: none !important;
-}
-
-.childBtnWrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
-.childBtnWrapper button {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.confirmInputBtn {
-  background-color: lightgreen;
-}
-
-.cancelInputBtn {
-  background-color: red;
-}
-
-.taskViewer {
-  background-color: rgba(204, 204, 255, 0.8);
-  margin-right: 2vw;
-}
-
-.projectViewer button {
-  display: flex;
-  padding: 1vmin;
-  border: none;
-  color: black;
-  border-radius: 1rem;
-}
-
-.projectViewer button:hover,
-button:active {
-  opacity: 0.8;
-  background-color: rgba(255, 253, 208, 1);
-}
-
-.footer {
+.footerContainer {
   height: 14vh;
   background-color: lightgray;
 }
