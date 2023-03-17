@@ -31,7 +31,7 @@ export default function createPageLayout() {
       tasksContainer.classList.add('tasksContainer');
       main.appendChild(tasksContainer);
 
-      projectButtonCreator(projects, projectContainer);
+      projectButtonCreator(projects, projectContainer, tasksContainer);
     };
 
     createMainContent();
