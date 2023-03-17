@@ -21,10 +21,6 @@ export function deleteProject(projectName) {
   }
 }
 
-export function selectProject(project, callback) {
-  callback(project);
-}
-
 export function addTaskToProject(projectName, task) {
   const project = projects.find(p => p.name === projectName);
   if (project) {

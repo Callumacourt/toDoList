@@ -1,5 +1,5 @@
 import projectButtonCreator from './projectButtonCreator';
-import { projects, selectProject } from './projects';
+import { projects } from './projects';
 
 export default function createPageLayout() {
   const createHeader = () => {
@@ -31,7 +31,7 @@ export default function createPageLayout() {
       tasksContainer.classList.add('tasksContainer');
       main.appendChild(tasksContainer);
 
-      projectButtonCreator(projects, selectProject, projectContainer);
+      projectButtonCreator(projects, projectContainer);
     };
 
     createMainContent();
