@@ -1,6 +1,8 @@
 import projectButtonCreator from './projectButtonCreator';
 import { addTaskToProject, projects } from './projects';
 import TaskCreator from './tasks';
+import createProjectAdder from './addProjectButton';
+import createAddTaskButton from './createAddTaskButton';
 
 function createHeader() {
   const headerContainer = document.createElement('div');
@@ -26,6 +28,8 @@ function createMain() {
   tasksContainer.classList.add('tasksContainer');
   main.appendChild(tasksContainer);
 
+  createProjectAdder(projectContainer, tasksContainer);
+
   projectButtonCreator(
     projects,
     projectContainer,
@@ -44,16 +48,6 @@ function createFooter() {
   footerContainer.appendChild(footer);
 }
 
-export function createAddTaskButton(project, tasksContainer) {
-  const addTaskButton = document.createElement('button');
-  addTaskButton.innerText = '+ Add a task';
-  addTaskButton.classList.add('taskAdderBtn');
-  tasksContainer.appendChild(addTaskButton);
-
-  addTaskButton.addEventListener('click', () => {
-    createTaskInputControls(project, tasksContainer);
-  });
-}
 function createTaskInputControls(project, tasksContainer) {
   const taskNameInput = document.createElement('input');
   tasksContainer.appendChild(taskNameInput);
@@ -67,7 +61,6 @@ function createTaskInputControls(project, tasksContainer) {
   tasksContainer.appendChild(cancelInput);
 
   confirmInput.addEventListener('click', () => {
-    console.log(project);
     const taskName = taskNameInput.value;
     const newTask = new TaskCreator(taskName, 'h', 'h', 'h');
     addTaskToProject(project.name, newTask); // Use the project instance directly

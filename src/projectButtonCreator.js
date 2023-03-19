@@ -1,6 +1,8 @@
+import createAddTaskButton from './createAddTaskButton';
+
 const selectedProject = null;
 
-function createProjectButton(project) {
+export function createProjectButton(project) {
   const projectButton = document.createElement('button');
   projectButton.textContent = project.name;
   projectButton.classList.add('projectButton');
@@ -23,8 +25,7 @@ function renderTasks(project, tasksContainer) {
 function setupProjectButtonEventListener(
   projectButton,
   project,
-  tasksContainer,
-  createAddTaskButton
+  tasksContainer
 ) {
   projectButton.addEventListener('click', () => {
     clearTasksContainer(tasksContainer);
@@ -36,18 +37,12 @@ function setupProjectButtonEventListener(
 export default function projectButtonCreator(
   projects,
   projectContainer,
-  tasksContainer,
-  createAddTaskButton
+  tasksContainer
 ) {
   projects.forEach(project => {
     const projectButton = createProjectButton(project);
     projectContainer.appendChild(projectButton);
 
-    setupProjectButtonEventListener(
-      projectButton,
-      project,
-      tasksContainer,
-      createAddTaskButton
-    );
+    setupProjectButtonEventListener(projectButton, project, tasksContainer);
   });
 }

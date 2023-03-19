@@ -5,7 +5,9 @@ export const projects = [
 ];
 
 export function createProject(name) {
-  projects.push({ name, tasks: [] });
+  const newProject = { name, tasks: [] };
+  projects.push(newProject);
+  return newProject;
 }
 
 export function deleteProject(projectName) {
@@ -23,8 +25,17 @@ export function deleteProject(projectName) {
 
 export function addTaskToProject(projectName, task) {
   const project = projects.find(p => p.name === projectName);
-  if (project) {
+  const allTasksProject = projects.find(p => p.name === 'All tasks');
+
+  if (project && project.name !== 'All tasks') {
     project.tasks.push(task);
+    if (!allTasksProject.tasks.includes(task)) {
+      allTasksProject.tasks.push(task);
+    }
+  } else if (project && project.name === 'All tasks') {
+    if (!allTasksProject.tasks.includes(task)) {
+      allTasksProject.tasks.push(task);
+    }
   } else {
     projects[0].tasks.push(task);
   }
