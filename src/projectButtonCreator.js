@@ -1,8 +1,6 @@
 import createAddTaskButton from './createAddTaskButton';
 import { deleteProject } from './projects';
 
-const selectedProject = null;
-
 export function createProjectButton(project) {
   const projectButton = document.createElement('button');
   projectButton.textContent = project.name;

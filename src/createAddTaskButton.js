@@ -37,7 +37,7 @@ function createTaskInputControls(project, tasksContainer) {
 }
 
 function renderTask(task, container) {
-  const taskElement = document.createElement('div');
+  const taskElement = document.createElement('button');
   taskElement.textContent = task.title;
   container.appendChild(taskElement);
 }
