@@ -1,4 +1,5 @@
 import createAddTaskButton from './createAddTaskButton';
+import { deleteProject } from './projects';
 
 const selectedProject = null;
 
@@ -34,6 +35,16 @@ function setupProjectButtonEventListener(
   });
 }
 
+function removeProject() {
+  const deleteProjectButton = document.createElement('button');
+  deleteProjectButton.innerText = 'X';
+  deleteProjectButton.addEventListener('click', () => {
+    deleteProject(project.name);
+    projectContainer.removeChild(projectButton);
+  });
+  projectButton.appendChild(deleteProjectButton);
+}
+
 export default function projectButtonCreator(
   projects,
   projectContainer,
@@ -42,6 +53,14 @@ export default function projectButtonCreator(
   projects.forEach(project => {
     const projectButton = createProjectButton(project);
     projectContainer.appendChild(projectButton);
+
+    const deleteProjectButton = document.createElement('button');
+    deleteProjectButton.innerText = 'X';
+    deleteProjectButton.addEventListener('click', () => {
+      deleteProject(project.name);
+      projectContainer.removeChild(projectButton);
+    });
+    projectButton.appendChild(deleteProjectButton);
 
     setupProjectButtonEventListener(projectButton, project, tasksContainer);
   });

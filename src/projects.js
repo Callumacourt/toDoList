@@ -10,15 +10,18 @@ export function createProject(name) {
   return newProject;
 }
 
-export function deleteProject(projectName) {
-  const projectIndex = projects.findIndex(p => p.name === projectName);
-  if (projectIndex !== -1) {
+export function deleteProject(projectNameToDelete) {
+  const projectIndex = projects.findIndex(p => p.name === projectNameToDelete);
+  if (projectIndex !== -1 && projectNameToDelete !== 'All tasks') {
     const deletedProject = projects.splice(projectIndex, 1)[0];
-    // Remove any references to the deleted project from other projects' task lists
-    projects.forEach(project => {
-      project.tasks = project.tasks.filter(
-        task => task.project !== deletedProject
-      );
+
+    // Remove the tasks from the deleted project in the 'All Tasks' project
+    const allTasksProject = projects.find(p => p.name === 'All tasks');
+    deletedProject.tasks.forEach(task => {
+      const taskIndex = allTasksProject.tasks.findIndex(t => t === task);
+      if (taskIndex !== -1) {
+        allTasksProject.tasks.splice(taskIndex, 1);
+      }
     });
   }
 }
