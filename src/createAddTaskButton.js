@@ -9,12 +9,14 @@ export default function createAddTaskButton(project, tasksContainer) {
 
   addTaskButton.addEventListener('click', () => {
     createTaskInputControls(project, tasksContainer);
+    addTaskButton.disabled = true;
   });
 }
 
 function createTaskInputControls(project, tasksContainer) {
   const taskNameInput = document.createElement('input');
   tasksContainer.appendChild(taskNameInput);
+  taskNameInput.placeholder = 'Add a task';
 
   const confirmInput = document.createElement('button');
   confirmInput.innerText = '✓';
@@ -24,15 +26,25 @@ function createTaskInputControls(project, tasksContainer) {
   cancelInput.innerText = 'X';
   tasksContainer.appendChild(cancelInput);
 
+  function resetTaskButton() {
+    const addTaskButton = document.querySelector('.taskAdderBtn');
+    addTaskButton.disabled = false;
+    tasksContainer.removeChild(taskNameInput);
+    tasksContainer.removeChild(confirmInput);
+    tasksContainer.removeChild(cancelInput);
+  }
+
   confirmInput.addEventListener('click', () => {
     const taskName = taskNameInput.value;
     const newTask = new TaskCreator(taskName, 'h', 'h', 'h');
     addTaskToProject(project.name, newTask); // Use the project instance directly
     renderTask(newTask, tasksContainer); // Render the new task immediately
+    resetTaskButton();
   });
 
   cancelInput.addEventListener('click', () => {
     taskNameInput.value = '';
+    resetTaskButton();
   });
 }
 

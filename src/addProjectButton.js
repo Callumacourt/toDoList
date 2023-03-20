@@ -2,13 +2,14 @@ import { createProject } from './projects';
 import projectButtonCreator from './projectButtonCreator';
 import createAddTaskButton from './createAddTaskButton';
 
+const addProjectButton = document.createElement('button');
+
 function initialiseListeners(
   confirmProjectName,
   cancelAddProject,
   projectNameInput,
   projectContainer,
-  tasksContainer,
-  addProjectButton
+  tasksContainer
 ) {
   confirmProjectName.addEventListener('click', () => {
     const newProject = createProject(projectNameInput.value);
@@ -28,7 +29,6 @@ function initialiseListeners(
 }
 
 export default function createProjectAdder(projectContainer, tasksContainer) {
-  const addProjectButton = document.createElement('button');
   addProjectButton.innerText = '+ Add a project';
   projectContainer.appendChild(addProjectButton);
 
