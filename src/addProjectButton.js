@@ -3,73 +3,69 @@ import projectButtonCreator from './projectButtonCreator';
 
 const addProjectButton = document.createElement('button');
 
-function initialiseListeners(
-  confirmProjectName,
-  cancelAddProject,
-  projectNameInput,
-  projectContainer,
-  tasksContainer
-) {
-  const validateProjectName = (projectNames, projectName) => {
-    for (let i = 0; i < projectNames.length; i += 1) {
-      if (projectNames[i] === projectName) {
-        alert('A project with that name already exists');
-        return false;
-      }
-      if (projectName.length <= 0) {
-        alert('Project name cannot be empty');
-        return false;
-      }
+function validateProjectName(projectNames, projectName) {
+  for (let i = 0; i < projectNames.length; i += 1) {
+    if (projectNames[i] === projectName) {
+      alert('A project with that name already exists');
+      return false;
     }
-    return true;
-  };
+    if (projectName.length <= 0) {
+      alert('Project name cannot be empty');
+      return false;
+    }
+  }
+  return true;
+}
 
-  confirmProjectName.addEventListener('click', () => {
+function initialiseListeners(
+  { confirmButton, cancelButton, inputField },
+  { projectListElement, taskListElement }
+) {
+  confirmButton.addEventListener('click', () => {
     const projectNames = projects.map(proj => proj.name);
-    const projectName = projectNameInput.value;
+    const projectName = inputField.value;
 
     if (validateProjectName(projectNames, projectName)) {
       const newProject = createProject(projectName);
-      projectNameInput.remove();
-      confirmProjectName.remove();
-      cancelAddProject.remove();
-      projectButtonCreator([newProject], projectContainer, tasksContainer);
+      inputField.remove();
+      confirmButton.remove();
+      cancelButton.remove();
+      projectButtonCreator([newProject], projectListElement, taskListElement);
       addProjectButton.disabled = false; // Enable the button
     }
   });
 
-  cancelAddProject.addEventListener('click', () => {
-    projectNameInput.remove();
-    confirmProjectName.remove();
-    cancelAddProject.remove();
+  cancelButton.addEventListener('click', () => {
+    inputField.remove();
+    confirmButton.remove();
+    cancelButton.remove();
     addProjectButton.disabled = false; // Enable the button
   });
 }
 
-export default function createProjectAdder(projectContainer, tasksContainer) {
-  addProjectButton.innerText = '+ Add a project';
-  projectContainer.appendChild(addProjectButton);
+export default function createProjectAdder(
+  projectListElement,
+  taskListElement
+) {
+  addProjectButton.textContent = '+ Add a project';
+  projectListElement.appendChild(addProjectButton);
 
   addProjectButton.addEventListener('click', () => {
     addProjectButton.disabled = true; // Disable the button
-    const projectNameInput = document.createElement('input');
-    projectContainer.appendChild(projectNameInput);
+    const inputField = document.createElement('input');
+    projectListElement.appendChild(inputField);
 
-    const confirmProjectName = document.createElement('button');
-    confirmProjectName.innerText = 'Confirm';
-    projectContainer.appendChild(confirmProjectName);
+    const confirmButton = document.createElement('button');
+    confirmButton.textContent = 'Confirm';
+    projectListElement.appendChild(confirmButton);
 
-    const cancelAddProject = document.createElement('button');
-    cancelAddProject.innerText = 'Cancel';
-    projectContainer.appendChild(cancelAddProject);
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Cancel';
+    projectListElement.appendChild(cancelButton);
 
     initialiseListeners(
-      confirmProjectName,
-      cancelAddProject,
-      projectNameInput,
-      projectContainer,
-      tasksContainer,
-      addProjectButton
+      { confirmButton, cancelButton, inputField },
+      { projectListElement, taskListElement }
     );
   });
 }

@@ -14,10 +14,11 @@ function clearTasksContainer(tasksContainer) {
 }
 
 function renderTasks(project, tasksContainer) {
+  const taskListContainer = tasksContainer.querySelector('.taskListContainer');
   project.tasks.forEach(task => {
     const taskElement = document.createElement('button');
     taskElement.textContent = task.title;
-    tasksContainer.appendChild(taskElement);
+    taskListContainer.appendChild(taskElement);
   });
 }
 
@@ -28,19 +29,9 @@ function setupProjectButtonEventListener(
 ) {
   projectButton.addEventListener('click', () => {
     clearTasksContainer(tasksContainer);
-    renderTasks(project, tasksContainer);
     createAddTaskButton(project, tasksContainer);
+    renderTasks(project, tasksContainer);
   });
-}
-
-function removeProject() {
-  const deleteProjectButton = document.createElement('button');
-  deleteProjectButton.innerText = 'X';
-  deleteProjectButton.addEventListener('click', () => {
-    deleteProject(project.name);
-    projectContainer.removeChild(projectButton);
-  });
-  projectButton.appendChild(deleteProjectButton);
 }
 
 export default function projectButtonCreator(

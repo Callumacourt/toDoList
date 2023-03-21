@@ -34,3 +34,67 @@ body {
   height: 14vh;
   background-color: lightgray;
 }
+
+.taskAdderForm {
+  display: grid;
+}
+.taskListContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: min-content;
+  grid-gap: 10px;
+  align-items: center;
+  justify-items: center;
+  min-width: 50vw;
+}
+
+.taskListContainer button {
+  width: 50vw;
+  height: 7vh;
+  background-color: lavenderblush;
+  display: flex;
+}
+
+.taskAdderForm button {
+  display: flex;
+}
+
+.taskContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  width: 80%;
+}
+
+.taskItem {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.tasksContainer {
+  overflow-y: auto;
+}
+
+.tasksContainer::-webkit-scrollbar {
+  width: 15px;
+}
+
+.tasksContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.tasksContainer::-webkit-scrollbar-thumb {
+  background-color: cornflowerblue;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+.taskAndButtonWrapper {
+  display: grid;
+  justify-content: center;
+  gap: 5vh;
+}
