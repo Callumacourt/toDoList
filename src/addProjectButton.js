@@ -1,6 +1,5 @@
-import { createProject } from './projects';
+import { createProject, projects } from './projects';
 import projectButtonCreator from './projectButtonCreator';
-import createAddTaskButton from './createAddTaskButton';
 
 const addProjectButton = document.createElement('button');
 
@@ -11,13 +10,32 @@ function initialiseListeners(
   projectContainer,
   tasksContainer
 ) {
+  const validateProjectName = (projectNames, projectName) => {
+    for (let i = 0; i < projectNames.length; i += 1) {
+      if (projectNames[i] === projectName) {
+        alert('A project with that name already exists');
+        return false;
+      }
+      if (projectName.length <= 0) {
+        alert('Project name cannot be empty');
+        return false;
+      }
+    }
+    return true;
+  };
+
   confirmProjectName.addEventListener('click', () => {
-    const newProject = createProject(projectNameInput.value);
-    projectNameInput.remove();
-    confirmProjectName.remove();
-    cancelAddProject.remove();
-    projectButtonCreator([newProject], projectContainer, tasksContainer);
-    addProjectButton.disabled = false; // Enable the button
+    const projectNames = projects.map(proj => proj.name);
+    const projectName = projectNameInput.value;
+
+    if (validateProjectName(projectNames, projectName)) {
+      const newProject = createProject(projectName);
+      projectNameInput.remove();
+      confirmProjectName.remove();
+      cancelAddProject.remove();
+      projectButtonCreator([newProject], projectContainer, tasksContainer);
+      addProjectButton.disabled = false; // Enable the button
+    }
   });
 
   cancelAddProject.addEventListener('click', () => {

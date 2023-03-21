@@ -1,51 +1,90 @@
-import { addTaskToProject } from './projects';
+import { addTaskToProject, projects } from './projects';
 import TaskCreator from './tasks';
 
 export default function createAddTaskButton(project, tasksContainer) {
+  const addTaskForm = document.createElement('form');
+  addTaskForm.classList.add('taskAdderForm');
+  tasksContainer.appendChild(addTaskForm);
+
   const addTaskButton = document.createElement('button');
   addTaskButton.innerText = '+ Add a task';
+  addTaskButton.type = 'button';
   addTaskButton.classList.add('taskAdderBtn');
-  tasksContainer.appendChild(addTaskButton);
+  addTaskForm.appendChild(addTaskButton);
 
   addTaskButton.addEventListener('click', () => {
     createTaskInputControls(project, tasksContainer);
     addTaskButton.disabled = true;
   });
+
+  addTaskForm.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const taskNameInput = addTaskForm.querySelector('.taskNameInput');
+    const taskDescriptionInput = addTaskForm.querySelector(
+      '.taskDescriptionInput'
+    );
+    const taskName = taskNameInput.value;
+    const taskDescription = taskDescriptionInput.value;
+
+    const projectTasks = projects.find(
+      proj => proj.name === project.name
+    ).tasks;
+
+    // Check if a task with the same name already exists in the project
+    if (projectTasks.some(task => task.title === taskName)) {
+      alert('A task with the same name already exists in this project.');
+      return;
+    }
+
+    const newTask = new TaskCreator(taskName, taskDescription, 'h', 'h', 'h');
+    addTaskToProject(project.name, newTask);
+    renderTask(newTask, tasksContainer);
+
+    resetTaskButton(addTaskForm);
+  });
 }
 
-function createTaskInputControls(project, tasksContainer) {
+function createTaskInputControls() {
+  const addTaskForm = document.querySelector('.taskAdderForm');
+
   const taskNameInput = document.createElement('input');
-  tasksContainer.appendChild(taskNameInput);
   taskNameInput.placeholder = 'Add a task';
+  taskNameInput.setAttribute('required', '');
+  taskNameInput.classList.add('taskNameInput');
+  addTaskForm.appendChild(taskNameInput);
+
+  const taskDescriptionInput = document.createElement('input');
+  taskDescriptionInput.placeholder = 'Add a description';
+  taskDescriptionInput.classList.add('taskDescriptionInput');
+  addTaskForm.appendChild(taskDescriptionInput);
 
   const confirmInput = document.createElement('button');
   confirmInput.innerText = '✓';
-  tasksContainer.appendChild(confirmInput);
+  confirmInput.type = 'submit';
+  addTaskForm.appendChild(confirmInput);
 
   const cancelInput = document.createElement('button');
   cancelInput.innerText = 'X';
-  tasksContainer.appendChild(cancelInput);
-
-  function resetTaskButton() {
-    const addTaskButton = document.querySelector('.taskAdderBtn');
-    addTaskButton.disabled = false;
-    tasksContainer.removeChild(taskNameInput);
-    tasksContainer.removeChild(confirmInput);
-    tasksContainer.removeChild(cancelInput);
-  }
-
-  confirmInput.addEventListener('click', () => {
-    const taskName = taskNameInput.value;
-    const newTask = new TaskCreator(taskName, 'h', 'h', 'h');
-    addTaskToProject(project.name, newTask); // Use the project instance directly
-    renderTask(newTask, tasksContainer); // Render the new task immediately
-    resetTaskButton();
-  });
+  cancelInput.type = 'button';
+  addTaskForm.appendChild(cancelInput);
 
   cancelInput.addEventListener('click', () => {
     taskNameInput.value = '';
-    resetTaskButton();
+    taskDescriptionInput.value = '';
+    resetTaskButton(addTaskForm);
   });
+}
+
+function resetTaskButton(addTaskForm) {
+  const addTaskButton = document.querySelector('.taskAdderBtn');
+  addTaskButton.disabled = false;
+
+  addTaskForm
+    .querySelectorAll('input, button:not(.taskAdderBtn)')
+    .forEach(element => {
+      addTaskForm.removeChild(element);
+    });
 }
 
 function renderTask(task, container) {

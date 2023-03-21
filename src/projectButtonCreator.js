@@ -15,7 +15,7 @@ function clearTasksContainer(tasksContainer) {
 
 function renderTasks(project, tasksContainer) {
   project.tasks.forEach(task => {
-    const taskElement = document.createElement('div');
+    const taskElement = document.createElement('button');
     taskElement.textContent = task.title;
     tasksContainer.appendChild(taskElement);
   });
