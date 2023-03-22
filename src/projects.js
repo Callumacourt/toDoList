@@ -1,6 +1,6 @@
 export const projects = [
   { name: 'Home', tasks: [] },
-  { name: 'Health', tasks: [] },
+  { name: 'Important', tasks: [] },
   { name: 'All tasks', tasks: [] },
 ];
 

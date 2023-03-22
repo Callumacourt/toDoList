@@ -32,8 +32,10 @@ export default function createAddTaskButton(project, tasksContainer) {
     const taskDescriptionInput = addTaskForm.querySelector(
       '.taskDescriptionInput'
     );
+    const taskDateInput = addTaskForm.querySelector('.taskDateInput');
     const taskName = taskNameInput.value;
     const taskDescription = taskDescriptionInput.value;
+    const taskDueDate = taskDateInput.value;
 
     const projectTasks = projects.find(
       proj => proj.name === project.name
@@ -47,9 +49,15 @@ export default function createAddTaskButton(project, tasksContainer) {
       return;
     }
 
-    const newTask = new TaskCreator(taskName, taskDescription, 'h', 'h', 'h');
+    const newTask = new TaskCreator(
+      taskName,
+      taskDescription,
+      taskDueDate,
+      'h',
+      'h'
+    );
     addTaskToProject(project.name, newTask);
-    renderTask(newTask, tasksContainer);
+    renderTask(newTask, tasksContainer, taskDueDate);
 
     resetTaskForm(addTaskForm);
   });
@@ -66,6 +74,11 @@ function createTaskInputControls(addTaskForm) {
   taskDescriptionInput.placeholder = 'Add a description';
   taskDescriptionInput.classList.add('taskDescriptionInput');
   addTaskForm.appendChild(taskDescriptionInput);
+
+  const taskDateInput = document.createElement('input');
+  taskDateInput.type = 'date';
+  taskDateInput.classList.add('taskDateInput');
+  addTaskForm.appendChild(taskDateInput);
 
   const buttonsWrapper = document.createElement('div');
   buttonsWrapper.classList.add('buttonsWrapper');
@@ -106,8 +119,37 @@ function resetTaskForm(addTaskForm) {
 
 export function renderTask(task, container) {
   const taskElement = document.createElement('button');
+  taskElement.classList.add('task');
   taskElement.textContent = task.title;
   const toDoList = document.createElement('div');
-  container.querySelector('.taskListContainer').appendChild(toDoList); // Use the taskListContainer
+  container.querySelector('.taskListContainer').appendChild(toDoList);
   toDoList.appendChild(taskElement);
+
+  const taskDateInput = document.querySelector('.taskDateInput');
+
+  const taskDueDate = document.createElement('p');
+  if (taskDateInput.value !== '') {
+    taskDueDate.textContent = `Due date: ${task.dueDate}`;
+    console.log(taskDateInput.value);
+  } else {
+    taskDueDate.textContent = 'No due date';
+  }
+  taskElement.appendChild(taskDueDate);
+
+  const taskCompleter = document.createElement('button');
+  taskCompleter.classList.add('taskCompleter');
+  taskCompleter.addEventListener('click', () => {
+    if (task.completed) {
+      task.uncompleteTask();
+      taskCompleter.textContent = '';
+      taskCompleter.classList.remove('completed');
+      taskCompleter.classList.add('uncompleted');
+    } else {
+      task.completeTask();
+      taskCompleter.textContent = '✓';
+      taskCompleter.classList.remove('uncompleted');
+      taskCompleter.classList.add('completed');
+    }
+  });
+  taskElement.appendChild(taskCompleter);
 }

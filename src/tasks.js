@@ -12,6 +12,10 @@ export default function TaskCreator(title, description, dueDate, priority) {
     this.completed = true;
   };
 
+  this.uncompleteTask = function () {
+    this.completed = false;
+  };
+
   this.changePriority = function (newPriority) {
     this.priority = newPriority;
   };

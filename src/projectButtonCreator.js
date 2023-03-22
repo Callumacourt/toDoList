@@ -19,6 +19,10 @@ function renderTasks(project, tasksContainer) {
     const taskElement = document.createElement('button');
     taskElement.textContent = task.title;
     taskListContainer.appendChild(taskElement);
+
+    const taskDueDate = document.createElement('h2');
+    taskDueDate.innerText = `Due date: ${task.dueDate}`;
+    taskListContainer.appendChild(taskDueDate);
   });
 }
 
