@@ -22,6 +22,17 @@ function renderTasks(project, tasksContainer) {
   });
 }
 
+const appendAProjectName = (project, tasksContainer) => {
+  const projectNameContainer = document.createElement('div');
+  projectNameContainer.classList.add('projectNameContainer');
+
+  const projectName = document.createElement('h2');
+  projectName.textContent = project.name;
+  projectNameContainer.appendChild(projectName);
+
+  tasksContainer.insertBefore(projectNameContainer, tasksContainer.firstChild);
+};
+
 function setupProjectButtonEventListener(
   projectButton,
   project,
@@ -30,6 +41,7 @@ function setupProjectButtonEventListener(
   projectButton.addEventListener('click', () => {
     clearTasksContainer(tasksContainer);
     createAddTaskButton(project, tasksContainer);
+    appendAProjectName(project, tasksContainer);
     renderTasks(project, tasksContainer);
   });
 }

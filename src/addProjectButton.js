@@ -48,6 +48,7 @@ export default function createProjectAdder(
   taskListElement
 ) {
   addProjectButton.textContent = '+ Add a project';
+  addProjectButton.classList.add('addProjectButton');
   projectListElement.appendChild(addProjectButton);
 
   addProjectButton.addEventListener('click', () => {

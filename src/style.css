@@ -38,6 +38,12 @@ body {
 .taskAdderForm {
   display: grid;
 }
+
+.buttonsWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
 .taskListContainer {
   display: grid;
   grid-template-columns: 1fr;
@@ -46,6 +52,7 @@ body {
   align-items: center;
   justify-items: center;
   min-width: 50vw;
+  padding-top: 5vh;
 }
 
 .taskListContainer button {
@@ -57,6 +64,35 @@ body {
 
 .taskAdderForm button {
   display: flex;
+}
+
+.taskAdderForm {
+  gap: 5px;
+  padding: 1rem;
+}
+
+.confirmInputBtn,
+.cancelInputBtn {
+  color: white;
+  width: 3vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.confirmInputBtn:hover,
+.cancelInputBtn:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.confirmInputBtn {
+  background-color: lightgreen;
+}
+
+.cancelInputBtn {
+  background-color: red;
 }
 
 .taskContainer {
@@ -97,4 +133,54 @@ body {
   display: grid;
   justify-content: center;
   gap: 5vh;
+}
+
+.projectNameContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.projectsContainer {
+  display: grid;
+  height: fit-content;
+  gap: 1vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  padding-top: 5vh;
+}
+
+.projectButton {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1vw;
+  background-color: rgba(244, 204, 255, 1);
+  border-radius: 5px;
+  color: black;
+  font-style: italic;
+  border: none;
+}
+
+.projectButton button {
+  background-color: lavenderblush;
+  border-radius: 6px;
+  border-color: lightblue;
+  color: black;
+}
+
+.addProjectButton {
+  background-color: lavenderblush;
+  color: black;
+  border-radius: 10px;
+  border: 1px solid lavender;
+}
+
+.projectButton button:hover,
+.projectButton:hover,
+.addProjectButton:hover {
+  cursor: pointer;
+}
+
+.taskAdderBtn {
+  background-color: white;
+  color: black;
 }

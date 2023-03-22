@@ -67,15 +67,21 @@ function createTaskInputControls(addTaskForm) {
   taskDescriptionInput.classList.add('taskDescriptionInput');
   addTaskForm.appendChild(taskDescriptionInput);
 
+  const buttonsWrapper = document.createElement('div');
+  buttonsWrapper.classList.add('buttonsWrapper');
+  addTaskForm.appendChild(buttonsWrapper);
+
   const confirmInput = document.createElement('button');
   confirmInput.textContent = '✓';
+  confirmInput.classList.add('confirmInputBtn');
   confirmInput.type = 'submit';
-  addTaskForm.appendChild(confirmInput);
+  buttonsWrapper.appendChild(confirmInput);
 
   const cancelInput = document.createElement('button');
   cancelInput.textContent = 'X';
+  cancelInput.classList.add('cancelInputBtn');
   cancelInput.type = 'button';
-  addTaskForm.appendChild(cancelInput);
+  buttonsWrapper.appendChild(cancelInput);
 
   cancelInput.addEventListener('click', () => {
     taskNameInput.value = '';
@@ -88,11 +94,14 @@ function resetTaskForm(addTaskForm) {
   const addTaskButton = addTaskForm.querySelector('.taskAdderBtn');
   addTaskButton.disabled = false;
 
-  addTaskForm
-    .querySelectorAll('input, button:not(.taskAdderBtn)')
-    .forEach(element => {
-      addTaskForm.removeChild(element);
-    });
+  const buttonsWrapper = addTaskForm.querySelector('.buttonsWrapper');
+  if (buttonsWrapper) {
+    addTaskForm.removeChild(buttonsWrapper);
+  }
+
+  addTaskForm.querySelectorAll('input').forEach(element => {
+    addTaskForm.removeChild(element);
+  });
 }
 
 export function renderTask(task, container) {
