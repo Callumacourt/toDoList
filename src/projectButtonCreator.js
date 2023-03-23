@@ -1,4 +1,4 @@
-import createAddTaskButton from './createAddTaskButton';
+import createAddTaskButton, { renderTask } from './createAddTaskButton';
 import { deleteProject } from './projects';
 
 export function createProjectButton(project) {
@@ -16,13 +16,7 @@ function clearTasksContainer(tasksContainer) {
 function renderTasks(project, tasksContainer) {
   const taskListContainer = tasksContainer.querySelector('.taskListContainer');
   project.tasks.forEach(task => {
-    const taskElement = document.createElement('button');
-    taskElement.textContent = task.title;
-    taskListContainer.appendChild(taskElement);
-
-    const taskDueDate = document.createElement('h2');
-    taskDueDate.innerText = `Due date: ${task.dueDate}`;
-    taskListContainer.appendChild(taskDueDate);
+    renderTask(task, tasksContainer, task.dueDate);
   });
 }
 

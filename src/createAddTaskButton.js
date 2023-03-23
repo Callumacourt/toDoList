@@ -33,9 +33,13 @@ export default function createAddTaskButton(project, tasksContainer) {
       '.taskDescriptionInput'
     );
     const taskDateInput = addTaskForm.querySelector('.taskDateInput');
+    const taskPriorityInput = addTaskForm.querySelector(
+      '.taskPrioritySelector'
+    );
     const taskName = taskNameInput.value;
     const taskDescription = taskDescriptionInput.value;
     const taskDueDate = taskDateInput.value;
+    const taskPriority = taskPriorityInput.value;
 
     const projectTasks = projects.find(
       proj => proj.name === project.name
@@ -53,8 +57,7 @@ export default function createAddTaskButton(project, tasksContainer) {
       taskName,
       taskDescription,
       taskDueDate,
-      'h',
-      'h'
+      taskPriority
     );
     addTaskToProject(project.name, newTask);
     renderTask(newTask, tasksContainer, taskDueDate);
@@ -79,6 +82,17 @@ function createTaskInputControls(addTaskForm) {
   taskDateInput.type = 'date';
   taskDateInput.classList.add('taskDateInput');
   addTaskForm.appendChild(taskDateInput);
+
+  const taskPrioritySelect = document.createElement('select');
+  taskPrioritySelect.innerHTML = `
+    <option value="" disabled selected hidden>Priority:</option>
+    <option value="high">High</option>
+    <option value="medium">Medium</option>
+    <option value="low">Low</option>
+  `;
+
+  taskPrioritySelect.classList.add('taskPrioritySelector');
+  addTaskForm.appendChild(taskPrioritySelect);
 
   const buttonsWrapper = document.createElement('div');
   buttonsWrapper.classList.add('buttonsWrapper');
@@ -115,9 +129,12 @@ function resetTaskForm(addTaskForm) {
   addTaskForm.querySelectorAll('input').forEach(element => {
     addTaskForm.removeChild(element);
   });
+
+  const taskPriority = document.querySelector('.taskPrioritySelector');
+  addTaskForm.removeChild(taskPriority);
 }
 
-export function renderTask(task, container) {
+export function renderTask(task, container, taskDueDateValue) {
   const taskElement = document.createElement('button');
   taskElement.classList.add('task');
   taskElement.textContent = task.title;
@@ -125,15 +142,14 @@ export function renderTask(task, container) {
   container.querySelector('.taskListContainer').appendChild(toDoList);
   toDoList.appendChild(taskElement);
 
-  const taskDateInput = document.querySelector('.taskDateInput');
-
   const taskDueDate = document.createElement('p');
-  if (taskDateInput.value !== '') {
+  if (taskDueDateValue !== '') {
     taskDueDate.textContent = `Due date: ${task.dueDate}`;
-    console.log(taskDateInput.value);
+    console.log(taskDueDateValue);
   } else {
     taskDueDate.textContent = 'No due date';
   }
+  taskElement.appendChild(taskDueDate);
   taskElement.appendChild(taskDueDate);
 
   const taskCompleter = document.createElement('button');
@@ -144,12 +160,35 @@ export function renderTask(task, container) {
       taskCompleter.textContent = '';
       taskCompleter.classList.remove('completed');
       taskCompleter.classList.add('uncompleted');
+      taskElement.classList.remove('completedTask');
     } else {
       task.completeTask();
       taskCompleter.textContent = '✓';
       taskCompleter.classList.remove('uncompleted');
       taskCompleter.classList.add('completed');
+      taskElement.classList.add('completedTask');
     }
   });
+  if (task.completed) {
+    taskCompleter.textContent = '✓';
+    taskCompleter.classList.add('completed');
+    taskElement.classList.add('completedTask');
+  } else {
+    console.log(`Task: ${task.title}, Completed: ${task.completed}`);
+    taskCompleter.classList.add('uncompleted');
+  }
+
+  const changePriority = document.createElement('select');
+  changePriority.classList.add('changePriorityButon');
+  changePriority.innerHTML = ` 
+  <option value="" disabled selected hidden>Priority:</option>
+  <option value="high">High</option>
+  <option value="medium">Medium</option>
+  <option value="low">Low</option>';`;
+  changePriority.addEventListener('change', () => {
+    task.changePriority(changePriority.value);
+  });
+  taskElement.appendChild(changePriority);
+
   taskElement.appendChild(taskCompleter);
 }

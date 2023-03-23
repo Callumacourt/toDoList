@@ -210,3 +210,7 @@ body {
 p {
   margin: 0;
 }
+
+.completedTask {
+  text-decoration: line-through;
+}
