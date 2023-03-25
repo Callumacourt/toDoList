@@ -4,7 +4,7 @@ export default function TaskCreator(title, description, dueDate, priority) {
   this.title = title;
   this.description = description;
   this.dueDate = dueDate;
-  this.priority = priority;
+  this.priority = priority || 'low';
   this.completed = false;
   addTaskToProject('All tasks', this);
 

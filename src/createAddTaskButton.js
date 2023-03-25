@@ -186,9 +186,18 @@ export function renderTask(task, container, taskDueDateValue) {
   <option value="medium">Medium</option>
   <option value="low">Low</option>';`;
   changePriority.addEventListener('change', () => {
+    const oldP = task.priority;
     task.changePriority(changePriority.value);
+    taskElement.classList.remove(oldP);
+    const newP = task.priority;
+    taskElement.classList.add(newP);
   });
+
   taskElement.appendChild(changePriority);
 
   taskElement.appendChild(taskCompleter);
+  if (task.priority) {
+    const taskP = task.priority;
+    taskElement.classList.add(taskP);
+  }
 }
