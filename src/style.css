@@ -227,7 +227,7 @@ p {
   border-left: solid lightblue 0.5vw;
 }
 
-.editButton {
-  height: 1vw !important;
-  width: 4vw !important;
+.editTaskBtn {
+  height: fit-content !important;
+  width: fit-content !important;
 }

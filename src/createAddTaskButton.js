@@ -2,6 +2,7 @@ import { addTaskToProject, projects } from './projects';
 import TaskCreator from './tasks';
 
 export default function createAddTaskButton(project, tasksContainer) {
+  let editingTaskElement = null;
   const taskAndButtonWrapper = document.createElement('div');
   taskAndButtonWrapper.classList.add('taskAndButtonWrapper');
   tasksContainer.appendChild(taskAndButtonWrapper);
@@ -25,50 +26,87 @@ export default function createAddTaskButton(project, tasksContainer) {
       addTaskButton.disabled = true;
     });
 
-    const editing = false;
-
     addTaskForm.addEventListener('submit', event => {
       event.preventDefault();
-      if (editing === false) {
-        addTaskForm.addEventListener('submit', event => {
-          event.preventDefault();
+      const taskNameInput = addTaskForm.querySelector('.taskNameInput');
+      const taskDescriptionInput = addTaskForm.querySelector(
+        '.taskDescriptionInput'
+      );
+      const taskDateInput = addTaskForm.querySelector('.taskDateInput');
+      const taskPriorityInput = addTaskForm.querySelector(
+        '.taskPrioritySelector'
+      );
+      const taskName = taskNameInput.value;
+      const taskDescription = taskDescriptionInput.value;
+      const taskDueDate = taskDateInput.value;
+      const taskPriority = taskPriorityInput.value;
 
-          const taskNameInput = addTaskForm.querySelector('.taskNameInput');
-          const taskDescriptionInput = addTaskForm.querySelector(
-            '.taskDescriptionInput'
-          );
-          const taskDateInput = addTaskForm.querySelector('.taskDateInput');
-          const taskPriorityInput = addTaskForm.querySelector(
-            '.taskPrioritySelector'
-          );
-          const taskName = taskNameInput.value;
-          const taskDescription = taskDescriptionInput.value;
-          const taskDueDate = taskDateInput.value;
-          const taskPriority = taskPriorityInput.value;
+      if (!addTaskForm.editing) {
+        const projectTasks = projects.find(
+          proj => proj.name === project.name
+        ).tasks;
+        const isTaskNameAlreadyExists = projectTasks.some(
+          task => task.title === taskName
+        );
 
-          const projectTasks = projects.find(
-            proj => proj.name === project.name
-          ).tasks;
+        if (isTaskNameAlreadyExists) {
+          alert('A task with the same name already exists in this project.');
+          return;
+        }
 
-          const isTaskNameAlreadyExists = projectTasks.some(
-            task => task.title === taskName
-          );
-          if (isTaskNameAlreadyExists) {
-            alert('A task with the same name already exists in this project.');
-            return;
-          }
+        const newTask = new TaskCreator(
+          taskName,
+          taskDescription,
+          taskDueDate,
+          taskPriority
+        );
+        addTaskToProject(project.name, newTask);
+        renderTask(newTask, tasksContainer, taskDueDate);
 
-          const newTask = new TaskCreator(
-            taskName,
-            taskDescription,
-            taskDueDate,
-            taskPriority
-          );
-          addTaskToProject(project.name, newTask);
-          renderTask(newTask, tasksContainer, taskDueDate);
+        resetTaskForm(addTaskForm);
+      } else {
+        const projectObj = projects.find(proj => proj.name === project.name);
+        const taskIndex = projectObj.tasks.findIndex(
+          task =>
+            task.title ===
+            addTaskForm.editingTaskElement.querySelector('.task-name')
+              .textContent
+        );
+        const taskObj = projectObj.tasks[taskIndex];
+        const projectTasks = projects.find(
+          proj => proj.name === project.name
+        ).tasks;
+        const isTaskNameAlreadyExists = projectTasks.some(
+          task => task.title === taskName
+        );
+        if (isTaskNameAlreadyExists) {
+          alert('There is already a task with that name');
+          return;
+        }
+        taskObj.title = taskName;
+        taskObj.description = taskDescription;
+        taskObj.dueDate = taskDueDate;
+        taskObj.priority = taskPriority;
+        addTaskForm.editingTaskElement.querySelector('.task-name').textContent =
+          taskName;
+        addTaskForm.editingTaskElement.querySelector(
+          '.task-due-date'
+        ).textContent = taskDueDate
+          ? `Due date: ${taskDueDate}`
+          : 'No due date';
+        addTaskForm.editingTaskElement.querySelector(
+          '.changePriorityButon'
+        ).value = taskPriority;
+        addTaskForm.editingTaskElement.classList.remove(
+          'high',
+          'medium',
+          'low'
+        );
+        addTaskForm.editingTaskElement.classList.add(taskPriority);
 
-          resetTaskForm(addTaskForm);
-        });
+        resetTaskForm(addTaskForm);
+        addTaskForm.editing = false;
+        editingTaskElement = null;
       }
     });
 
@@ -146,20 +184,20 @@ function resetTaskForm(addTaskForm) {
   addTaskForm.removeChild(taskPriority);
 }
 
-const updateTask = (task, taskElement) => {
-  taskElement.textContent = task.title;
-};
-
 export function renderTask(task, container, taskDueDateValue) {
   const taskElement = document.createElement('button');
   taskElement.classList.add('task');
-  taskElement.textContent = task.title;
+  const taskName = document.createElement('span');
+  taskName.classList.add('task-name');
+  taskName.textContent = task.title;
+  taskElement.appendChild(taskName);
   const toDoList = document.createElement('div');
   container.querySelector('.taskListContainer').appendChild(toDoList);
   toDoList.appendChild(taskElement);
 
   const taskDueDate = document.createElement('p');
-  if (taskDueDateValue !== '') {
+  taskDueDate.classList.add('task-due-date');
+  if (taskDueDateValue) {
     taskDueDate.textContent = `Due date: ${task.dueDate}`;
     console.log(taskDueDateValue);
   } else {
@@ -209,19 +247,37 @@ export function renderTask(task, container, taskDueDateValue) {
     taskElement.classList.add(newP);
   });
 
-  const editButton = document.createElement('button');
-  editButton.innerText = 'Edit task';
-  editButton.classList.add('editButton');
-  taskElement.appendChild(editButton);
-  editButton.addEventListener('click', () => {
-    createTaskInputControls(addTaskForm);
-  });
-
   taskElement.appendChild(changePriority);
+
+  const editButton = document.createElement('button');
+  editButton.textContent = 'Edit';
+  editButton.classList.add('editTaskBtn');
+  taskElement.appendChild(editButton);
+
+  editButton.addEventListener('click', () => {
+    const addTaskForm = document.querySelector('.taskAdderForm');
+    createTaskInputControls(addTaskForm);
+    populateForm(addTaskForm, task);
+    addTaskForm.editing = true;
+    addTaskForm.editingTaskElement = taskElement;
+  });
 
   taskElement.appendChild(taskCompleter);
   if (task.priority) {
     const taskP = task.priority;
     taskElement.classList.add(taskP);
   }
+
+  function populateForm(form, task) {
+    form.querySelector('.taskNameInput').value = task.title;
+    form.querySelector('.taskDescriptionInput').value = task.description;
+    form.querySelector('.taskDateInput').value = task.dueDate;
+    form.querySelector('.taskPrioritySelector').value = task.priority;
+  }
+
+  const editTask = (task, addTaskForm) => {
+    createTaskInputControls();
+    populateForm(addTaskForm, task);
+    addTaskForm.editing = true;
+  };
 }
