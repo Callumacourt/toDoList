@@ -10,60 +10,72 @@ export default function createAddTaskButton(project, tasksContainer) {
   taskListContainer.classList.add('taskListContainer');
   taskAndButtonWrapper.appendChild(taskListContainer);
 
-  const addTaskForm = document.createElement('form');
-  addTaskForm.classList.add('taskAdderForm');
+  const createAddTaskForm = () => {
+    const addTaskForm = document.createElement('form');
+    addTaskForm.classList.add('taskAdderForm');
+
+    const addTaskButton = document.createElement('button');
+    addTaskButton.textContent = '+ Add a task';
+    addTaskButton.type = 'button';
+    addTaskButton.classList.add('taskAdderBtn');
+    addTaskForm.appendChild(addTaskButton);
+
+    addTaskButton.addEventListener('click', () => {
+      createTaskInputControls(addTaskForm);
+      addTaskButton.disabled = true;
+    });
+
+    const editing = false;
+
+    addTaskForm.addEventListener('submit', event => {
+      event.preventDefault();
+      if (editing === false) {
+        addTaskForm.addEventListener('submit', event => {
+          event.preventDefault();
+
+          const taskNameInput = addTaskForm.querySelector('.taskNameInput');
+          const taskDescriptionInput = addTaskForm.querySelector(
+            '.taskDescriptionInput'
+          );
+          const taskDateInput = addTaskForm.querySelector('.taskDateInput');
+          const taskPriorityInput = addTaskForm.querySelector(
+            '.taskPrioritySelector'
+          );
+          const taskName = taskNameInput.value;
+          const taskDescription = taskDescriptionInput.value;
+          const taskDueDate = taskDateInput.value;
+          const taskPriority = taskPriorityInput.value;
+
+          const projectTasks = projects.find(
+            proj => proj.name === project.name
+          ).tasks;
+
+          const isTaskNameAlreadyExists = projectTasks.some(
+            task => task.title === taskName
+          );
+          if (isTaskNameAlreadyExists) {
+            alert('A task with the same name already exists in this project.');
+            return;
+          }
+
+          const newTask = new TaskCreator(
+            taskName,
+            taskDescription,
+            taskDueDate,
+            taskPriority
+          );
+          addTaskToProject(project.name, newTask);
+          renderTask(newTask, tasksContainer, taskDueDate);
+
+          resetTaskForm(addTaskForm);
+        });
+      }
+    });
+
+    return addTaskForm;
+  };
+  const addTaskForm = createAddTaskForm();
   taskAndButtonWrapper.appendChild(addTaskForm);
-
-  const addTaskButton = document.createElement('button');
-  addTaskButton.textContent = '+ Add a task';
-  addTaskButton.type = 'button';
-  addTaskButton.classList.add('taskAdderBtn');
-  addTaskForm.appendChild(addTaskButton);
-
-  addTaskButton.addEventListener('click', () => {
-    createTaskInputControls(addTaskForm);
-    addTaskButton.disabled = true;
-  });
-
-  addTaskForm.addEventListener('submit', event => {
-    event.preventDefault();
-
-    const taskNameInput = addTaskForm.querySelector('.taskNameInput');
-    const taskDescriptionInput = addTaskForm.querySelector(
-      '.taskDescriptionInput'
-    );
-    const taskDateInput = addTaskForm.querySelector('.taskDateInput');
-    const taskPriorityInput = addTaskForm.querySelector(
-      '.taskPrioritySelector'
-    );
-    const taskName = taskNameInput.value;
-    const taskDescription = taskDescriptionInput.value;
-    const taskDueDate = taskDateInput.value;
-    const taskPriority = taskPriorityInput.value;
-
-    const projectTasks = projects.find(
-      proj => proj.name === project.name
-    ).tasks;
-
-    const isTaskNameAlreadyExists = projectTasks.some(
-      task => task.title === taskName
-    );
-    if (isTaskNameAlreadyExists) {
-      alert('A task with the same name already exists in this project.');
-      return;
-    }
-
-    const newTask = new TaskCreator(
-      taskName,
-      taskDescription,
-      taskDueDate,
-      taskPriority
-    );
-    addTaskToProject(project.name, newTask);
-    renderTask(newTask, tasksContainer, taskDueDate);
-
-    resetTaskForm(addTaskForm);
-  });
 }
 
 function createTaskInputControls(addTaskForm) {
@@ -134,6 +146,10 @@ function resetTaskForm(addTaskForm) {
   addTaskForm.removeChild(taskPriority);
 }
 
+const updateTask = (task, taskElement) => {
+  taskElement.textContent = task.title;
+};
+
 export function renderTask(task, container, taskDueDateValue) {
   const taskElement = document.createElement('button');
   taskElement.classList.add('task');
@@ -191,6 +207,14 @@ export function renderTask(task, container, taskDueDateValue) {
     taskElement.classList.remove(oldP);
     const newP = task.priority;
     taskElement.classList.add(newP);
+  });
+
+  const editButton = document.createElement('button');
+  editButton.innerText = 'Edit task';
+  editButton.classList.add('editButton');
+  taskElement.appendChild(editButton);
+  editButton.addEventListener('click', () => {
+    createTaskInputControls(addTaskForm);
   });
 
   taskElement.appendChild(changePriority);

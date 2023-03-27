@@ -203,7 +203,7 @@ body {
 
 .task {
   display: grid !important;
-  grid-template-columns: 2vw 8fr 1fr;
+  grid-template-columns: 2vw 8fr 1fr 1fr;
   align-items: center;
 }
 
@@ -225,4 +225,9 @@ p {
 
 .task {
   border-left: solid lightblue 0.5vw;
+}
+
+.editButton {
+  height: 1vw !important;
+  width: 4vw !important;
 }
