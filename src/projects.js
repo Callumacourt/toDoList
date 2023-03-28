@@ -43,3 +43,24 @@ export function addTaskToProject(projectName, task) {
     projects[0].tasks.push(task);
   }
 }
+
+export function removeTaskFromProject(projectName, task) {
+  const project = projects.find(p => p.name === projectName);
+  if (project) {
+    const taskIndex = project.tasks.findIndex(t => t.id === task.id);
+    if (taskIndex !== -1) {
+      project.tasks.splice(taskIndex, 1);
+    }
+
+    // Remove the task from the 'All Tasks' project as well
+    if (projectName !== 'All tasks') {
+      const allTasksProject = projects.find(p => p.name === 'All tasks');
+      const allTasksIndex = allTasksProject.tasks.findIndex(
+        t => t.id === task.id
+      );
+      if (allTasksIndex !== -1) {
+        allTasksProject.tasks.splice(allTasksIndex, 1);
+      }
+    }
+  }
+}

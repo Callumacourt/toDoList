@@ -268,6 +268,31 @@ export function renderTask(task, container, taskDueDateValue) {
     taskElement.classList.add(taskP);
   }
 
+  const taskDescriptionButton = document.createElement('button');
+  taskDescriptionButton.textContent = '- Expand task';
+  taskDescriptionButton.classList.add('taskDescriptionBtn');
+  taskElement.appendChild(taskDescriptionButton);
+
+  let descriptionAdded = false;
+
+  const taskExpander = () => {
+    taskDescriptionButton.addEventListener('click', () => {
+      if (!descriptionAdded) {
+        const taskDescription = document.createElement('p');
+        taskDescription.innerText = task.description;
+        taskDescription.classList.add('desc');
+        taskElement.appendChild(taskDescription);
+        descriptionAdded = true;
+      } else {
+        const taskDescription = taskElement.querySelector('.desc');
+        taskElement.removeChild(taskDescription);
+        descriptionAdded = false;
+      }
+    });
+  };
+
+  taskExpander();
+
   function populateForm(form, task) {
     form.querySelector('.taskNameInput').value = task.title;
     form.querySelector('.taskDescriptionInput').value = task.description;

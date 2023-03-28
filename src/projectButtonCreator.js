@@ -13,7 +13,7 @@ function clearTasksContainer(tasksContainer) {
   tasksContainer.innerHTML = '';
 }
 
-function renderTasks(project, tasksContainer) {
+function renderProjectTasks(project, tasksContainer) {
   const taskListContainer = tasksContainer.querySelector('.taskListContainer');
   project.tasks.forEach(task => {
     renderTask(task, tasksContainer, task.dueDate);
@@ -40,7 +40,7 @@ function setupProjectButtonEventListener(
     clearTasksContainer(tasksContainer);
     createAddTaskButton(project, tasksContainer);
     appendAProjectName(project, tasksContainer);
-    renderTasks(project, tasksContainer);
+    renderProjectTasks(project, tasksContainer);
   });
 }
 
@@ -56,8 +56,12 @@ export default function projectButtonCreator(
     const deleteProjectButton = document.createElement('button');
     deleteProjectButton.innerText = 'X';
     deleteProjectButton.addEventListener('click', () => {
-      deleteProject(project.name);
-      projectContainer.removeChild(projectButton);
+      if (project.name !== 'All tasks') {
+        deleteProject(project.name);
+        projectContainer.removeChild(projectButton);
+      } else {
+        alert('Cannot delete this project!');
+      }
     });
     projectButton.appendChild(deleteProjectButton);
 

@@ -3,6 +3,7 @@ import {
   projects,
   addTaskToProject,
   deleteProject,
+  removeTaskFromProject,
 } from './projects';
 
 import TaskCreator from './tasks';
@@ -18,3 +19,4 @@ window.projects = projects;
 window.TaskCreator = TaskCreator;
 window.addTaskToProject = addTaskToProject;
 window.deleteProject = deleteProject;
+window.removeTaskFromProject = removeTaskFromProject;
