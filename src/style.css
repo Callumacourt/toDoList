@@ -227,12 +227,10 @@ p {
   border-left: solid lightblue 0.5vw;
 }
 
-.editTaskBtn {
-  height: fit-content !important;
-  width: fit-content !important;
-}
-
-.taskDescriptionBtn {
+.changePriorityButon,
+.editTaskBtn,
+.taskDescriptionBtn,
+.taskDeleteBtn {
   height: fit-content !important;
   width: fit-content !important;
 }

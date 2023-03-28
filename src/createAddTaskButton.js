@@ -1,4 +1,4 @@
-import { addTaskToProject, projects } from './projects';
+import { addTaskToProject, projects, removeTaskFromProject } from './projects';
 import TaskCreator from './tasks';
 
 export default function createAddTaskButton(project, tasksContainer) {
@@ -61,7 +61,7 @@ export default function createAddTaskButton(project, tasksContainer) {
           taskPriority
         );
         addTaskToProject(project.name, newTask);
-        renderTask(newTask, tasksContainer, taskDueDate);
+        renderTask(newTask, tasksContainer, taskDueDate, project.name);
 
         resetTaskForm(addTaskForm);
       } else {
@@ -184,7 +184,7 @@ function resetTaskForm(addTaskForm) {
   addTaskForm.removeChild(taskPriority);
 }
 
-export function renderTask(task, container, taskDueDateValue) {
+export function renderTask(task, container, taskDueDateValue, projectName) {
   const taskElement = document.createElement('button');
   taskElement.classList.add('task');
   const taskName = document.createElement('span');
@@ -255,6 +255,9 @@ export function renderTask(task, container, taskDueDateValue) {
   taskElement.appendChild(editButton);
 
   editButton.addEventListener('click', () => {
+    if (document.querySelector('.taskNameInput')) {
+      return; // prevent multiple edits and editing while a task is being added
+    }
     const addTaskForm = document.querySelector('.taskAdderForm');
     createTaskInputControls(addTaskForm);
     populateForm(addTaskForm, task);
@@ -292,6 +295,18 @@ export function renderTask(task, container, taskDueDateValue) {
   };
 
   taskExpander();
+  const deleteTask = () => {
+    const taskDeleteBtn = document.createElement('button');
+    taskDeleteBtn.innerText = 'X';
+    taskDeleteBtn.classList.add('taskDeleteBtn');
+    taskDeleteBtn.addEventListener('click', () => {
+      removeTaskFromProject(projectName, task);
+      taskElement.parentElement.removeChild(taskElement);
+    });
+    taskElement.appendChild(taskDeleteBtn);
+  };
+
+  deleteTask(projectName, task);
 
   function populateForm(form, task) {
     form.querySelector('.taskNameInput').value = task.title;
@@ -299,10 +314,4 @@ export function renderTask(task, container, taskDueDateValue) {
     form.querySelector('.taskDateInput').value = task.dueDate;
     form.querySelector('.taskPrioritySelector').value = task.priority;
   }
-
-  const editTask = (task, addTaskForm) => {
-    createTaskInputControls();
-    populateForm(addTaskForm, task);
-    addTaskForm.editing = true;
-  };
 }
