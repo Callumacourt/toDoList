@@ -1,12 +1,24 @@
-export const projects = [
+const defaultProjects = [
   { name: 'Home', tasks: [] },
   { name: 'Important', tasks: [] },
   { name: 'All tasks', tasks: [] },
 ];
 
+// Load projects from local storage
+const storedProjects = localStorage.getItem('projects');
+export const projects = storedProjects
+  ? JSON.parse(storedProjects)
+  : defaultProjects;
+
+function saveProjects() {
+  localStorage.setItem('projects', JSON.stringify(projects));
+}
+
 export function createProject(name) {
   const newProject = { name, tasks: [] };
   projects.push(newProject);
+  saveProjects();
+
   return newProject;
 }
 
@@ -23,6 +35,8 @@ export function deleteProject(projectNameToDelete) {
         allTasksProject.tasks.splice(taskIndex, 1);
       }
     });
+
+    saveProjects();
   }
 }
 
