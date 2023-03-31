@@ -61,7 +61,7 @@ export default function createAddTaskButton(project, tasksContainer) {
           taskPriority
         );
         addTaskToProject(project.name, newTask);
-        renderTask(newTask, tasksContainer, taskDueDate, project.name);
+        renderTask(newTask, tasksContainer, project.name);
 
         resetTaskForm(addTaskForm);
       } else {
@@ -306,7 +306,7 @@ export function renderTask(task, container, taskDueDateValue, projectName) {
     taskElement.appendChild(taskDeleteBtn);
   };
 
-  deleteTask(projectName, task);
+  deleteTask();
 
   function populateForm(form, task) {
     form.querySelector('.taskNameInput').value = task.title;

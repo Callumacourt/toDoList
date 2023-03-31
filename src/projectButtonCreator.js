@@ -16,7 +16,7 @@ function clearTasksContainer(tasksContainer) {
 function renderProjectTasks(project, tasksContainer) {
   const taskListContainer = tasksContainer.querySelector('.taskListContainer');
   project.tasks.forEach(task => {
-    renderTask(task, tasksContainer, task.dueDate);
+    renderTask(task, tasksContainer, task.dueDate, project.name);
   });
 }
 

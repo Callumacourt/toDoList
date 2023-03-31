@@ -1,19 +1,5 @@
 import { addTaskToProject, projects } from './projects';
-
-function loadTasks() {
-  const savedTasks = localStorage.getItem('tasks');
-  if (savedTasks) {
-    const parsedTasks = JSON.parse(savedTasks);
-    parsedTasks.forEach(task => {
-      const project = projects.find(p => p.tasks.includes(task));
-      if (project) {
-        project.tasks.push(task);
-      }
-    });
-  }
-}
-
-loadTasks();
+import saveToLocalStorage from './data';
 
 export default function TaskCreator(
   title,
@@ -54,4 +40,6 @@ export default function TaskCreator(
     this.dueDate = newDueDate;
     this.priority = newPriority;
   };
+
+  saveToLocalStorage(title, this);
 }

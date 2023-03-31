@@ -1,3 +1,5 @@
+import { removeFromLocalStorage } from './data';
+
 const defaultProjects = [
   { name: 'Home', tasks: [] },
   { name: 'Important', tasks: [] },
@@ -56,14 +58,23 @@ export function addTaskToProject(projectName, task) {
   } else {
     projects[0].tasks.push(task);
   }
+  saveProjects();
 }
-
 export function removeTaskFromProject(projectName, task) {
+  console.log('Removing task from project:', projectName);
+  console.log('Task to remove:', task);
+
   const project = projects.find(p => p.name === projectName);
+  console.log('Found project:', project);
+
   if (project) {
     const taskIndex = project.tasks.findIndex(t => t.id === task.id);
+    console.log('Task index:', taskIndex);
+
     if (taskIndex !== -1) {
       project.tasks.splice(taskIndex, 1);
+      console.log('Task removed from project', project);
+      saveProjects();
     }
 
     // Remove the task from the 'All Tasks' project as well
@@ -74,6 +85,7 @@ export function removeTaskFromProject(projectName, task) {
       );
       if (allTasksIndex !== -1) {
         allTasksProject.tasks.splice(allTasksIndex, 1);
+        saveProjects();
       }
     }
   }
