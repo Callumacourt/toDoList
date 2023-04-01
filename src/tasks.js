@@ -7,39 +7,37 @@ export default function TaskCreator(
   dueDate,
   priority,
   projectName,
-  id
+  id,
+  completed
 ) {
-  this.title = title;
-  this.description = description;
-  this.dueDate = dueDate;
-  this.priority = priority || 'low';
-  this.completed = false;
-  this.id = id || new Date().getTime().toString();
-  addTaskToProject(projectName || 'All tasks', this);
+  const task = {
+    title,
+    description,
+    dueDate,
+    priority: priority || 'low',
+    completed: completed || false,
+    id: id || new Date().getTime().toString(),
 
-  this.completeTask = function () {
-    this.completed = true;
+    completeTask() {
+      this.completed = true;
+    },
+
+    uncompleteTask() {
+      this.completed = false;
+    },
+
+    changePriority(newPriority) {
+      this.priority = newPriority;
+    },
+
+    updateTask(newTitle, newDescription, newDueDate, newPriority) {
+      this.title = newTitle;
+      this.description = newDescription;
+      this.dueDate = newDueDate;
+      this.priority = newPriority;
+    },
   };
 
-  this.uncompleteTask = function () {
-    this.completed = false;
-  };
-
-  this.changePriority = function (newPriority) {
-    this.priority = newPriority;
-  };
-
-  this.updateTask = function (
-    newTitle,
-    newDescription,
-    newDueDate,
-    newPriority
-  ) {
-    this.title = newTitle;
-    this.description = newDescription;
-    this.dueDate = newDueDate;
-    this.priority = newPriority;
-  };
-
-  saveToLocalStorage(title, this);
+  addTaskToProject(projectName || 'All tasks', task);
+  return task;
 }

@@ -6,11 +6,12 @@ const defaultProjects = [
   { name: 'All tasks', tasks: [] },
 ];
 
-// Load projects from local storage
 const storedProjects = localStorage.getItem('projects');
-export const projects = storedProjects
-  ? JSON.parse(storedProjects)
-  : defaultProjects;
+
+export const projects =
+  storedProjects && storedProjects !== 'undefined'
+    ? JSON.parse(storedProjects)
+    : defaultProjects;
 
 function saveProjects() {
   localStorage.setItem('projects', JSON.stringify(projects));
@@ -32,10 +33,11 @@ export function deleteProject(projectNameToDelete) {
     // Remove the tasks from the deleted project in the 'All Tasks' project
     const allTasksProject = projects.find(p => p.name === 'All tasks');
     deletedProject.tasks.forEach(task => {
-      const taskIndex = allTasksProject.tasks.findIndex(t => t === task);
+      const taskIndex = allTasksProject.tasks.findIndex(t => t.id === task.id);
       if (taskIndex !== -1) {
         allTasksProject.tasks.splice(taskIndex, 1);
       }
+      removeFromLocalStorage(task.id); // Remove the task from local storage
     });
 
     saveProjects();
