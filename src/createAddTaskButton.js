@@ -1,5 +1,9 @@
-import { addTaskToProject, projects, removeTaskFromProject } from './projects';
-import TaskCreator from './tasks';
+import {
+  addTaskToProject,
+  projects,
+  removeTaskFromProject,
+  TaskCreator,
+} from './projects';
 
 export default function createAddTaskButton(project, tasksContainer) {
   let editingTaskElement = null;
@@ -79,7 +83,7 @@ export default function createAddTaskButton(project, tasksContainer) {
         const isTaskNameAlreadyExists = projectTasks.some(
           task => task.title === taskName
         );
-        if (isTaskNameAlreadyExists) {
+        if (addTaskForm.editing !== true && isTaskNameAlreadyExists) {
           alert('There is already a task with that name');
           return;
         }
@@ -228,7 +232,6 @@ export function renderTask(task, container, taskDueDateValue, projectName) {
     taskCompleter.classList.add('completed');
     taskElement.classList.add('completedTask');
   } else {
-    console.log(`Task: ${task.title}, Completed: ${task.completed}`);
     taskCompleter.classList.add('uncompleted');
   }
 

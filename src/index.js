@@ -4,9 +4,8 @@ import {
   addTaskToProject,
   deleteProject,
   removeTaskFromProject,
+  TaskCreator,
 } from './projects';
-
-import TaskCreator from './tasks';
 
 import createPageLayout from './domHandler';
 

@@ -1,5 +1,65 @@
 import { removeFromLocalStorage } from './data';
 
+function updateTaskInAllTasks(task) {
+  const allTasksProject = projects.find(p => p.name === 'All tasks');
+  const allTasksIndex = allTasksProject.tasks.findIndex(t => t.id === task.id);
+  if (allTasksIndex !== -1) {
+    allTasksProject.tasks[allTasksIndex] = task;
+  }
+}
+
+export function TaskCreator(
+  title,
+  description,
+  dueDate,
+  priority,
+  projectName,
+  id,
+  completed,
+  skipAdding = false
+) {
+  const task = {
+    title,
+    description,
+    dueDate,
+    priority: priority || 'low',
+    completed: completed || false,
+    id: id || new Date().getTime().toString(),
+
+    completeTask() {
+      this.completed = true;
+      updateTaskInAllTasks(this);
+      saveProjects();
+    },
+
+    uncompleteTask() {
+      this.completed = false;
+      updateTaskInAllTasks(this);
+      saveProjects();
+    },
+
+    changePriority(newPriority) {
+      this.priority = newPriority;
+      updateTaskInAllTasks(this);
+      saveProjects();
+    },
+
+    updateTask(newTitle, newDescription, newDueDate, newPriority) {
+      this.title = newTitle;
+      this.description = newDescription;
+      this.dueDate = newDueDate;
+      this.priority = newPriority;
+      updateTaskInAllTasks(this);
+      saveProjects();
+    },
+  };
+
+  if (!skipAdding) {
+    addTaskToProject(projectName || 'All tasks', task);
+  }
+  return task;
+}
+
 const defaultProjects = [
   { name: 'Home', tasks: [] },
   { name: 'Important', tasks: [] },
@@ -8,10 +68,31 @@ const defaultProjects = [
 
 const storedProjects = localStorage.getItem('projects');
 
+function recreateTasks() {
+  projects.forEach(project => {
+    project.tasks = project.tasks.map(task =>
+      TaskCreator(
+        task.title, // Pass the updated title
+        task.description,
+        task.dueDate,
+        task.priority,
+        project.name,
+        task.id,
+        task.completed,
+        true
+      )
+    );
+  });
+}
+
 export const projects =
   storedProjects && storedProjects !== 'undefined'
     ? JSON.parse(storedProjects)
     : defaultProjects;
+
+if (storedProjects && storedProjects !== 'undefined') {
+  recreateTasks();
+}
 
 function saveProjects() {
   localStorage.setItem('projects', JSON.stringify(projects));
