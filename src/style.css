@@ -22,7 +22,7 @@ body {
 .main {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  height: 70vh;
+  height: 78vh;
   background-color: rgba(204, 204, 255, 1);
 }
 
@@ -31,7 +31,7 @@ body {
 }
 
 .footerContainer {
-  height: 14vh;
+  height: 6vh;
   background-color: lightgray;
 }
 
@@ -66,9 +66,18 @@ body {
   display: flex;
 }
 
+.taskAdderForm > * {
+  font-size: 1rem;
+}
+
 .taskAdderForm {
   gap: 5px;
   padding: 1rem;
+}
+
+.task-name {
+  font-weight: bold;
+  font-style: italic;
 }
 
 .confirmInputBtn,
@@ -149,6 +158,11 @@ body {
   padding-top: 5vh;
 }
 
+.projectName {
+  font-style: italic;
+  font-size: 2rem;
+}
+
 .projectButton {
   display: flex;
   justify-content: space-between;
@@ -165,6 +179,16 @@ body {
   border-radius: 6px;
   border-color: lightblue;
   color: black;
+}
+.projectButton button,
+.projectButton,
+.addProjectButton {
+  font-size: 1rem;
+}
+
+.projectButton:hover,
+.addProjectButton:hover {
+  background-color: white;
 }
 
 .addProjectButton {
@@ -186,8 +210,8 @@ body {
 }
 
 .taskCompleter {
-  height: 15px !important;
-  width: 15px !important;
+  height: 18px !important;
+  width: 18px !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -228,11 +252,32 @@ body {
 .task {
   display: grid !important;
   height: fit-content !important;
-  grid-template-columns: 2vw 1fr 4fr 0.5fr 0.5fr 0.2fr;
+  grid-template-columns: 3.5vw 1.5fr 1.7fr 0.5fr 0.2fr;
   grid-template-rows: 1fr 1fr;
+  justify-items: start;
   gap: 10px;
   align-items: center;
-  justify-content: space-evenly;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.task button {
+  background-color: white;
+}
+
+.taskDeleteBtn {
+  background-color: red !important;
+  color: white;
+}
+
+.task:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.task button:hover,
+select:hover,
+.taskAdderBtn:hover {
+  cursor: pointer;
 }
 
 p {
@@ -253,6 +298,7 @@ p {
 
 .task {
   border-left: solid lightblue 0.5vw;
+  word-wrap: break-word;
 }
 
 .changePriorityButon,
@@ -264,6 +310,8 @@ p {
 }
 
 .desc {
-  height: 10px;
+  max-height: 100%;
   grid-row-start: 2;
+  max-width: 380px;
+  word-wrap: break-word;
 }

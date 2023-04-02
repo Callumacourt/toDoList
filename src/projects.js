@@ -1,10 +1,13 @@
 import { removeFromLocalStorage } from './data';
 
-function updateTaskInAllTasks(task) {
+export function updateTaskInAllTasks(updatedTask) {
   const allTasksProject = projects.find(p => p.name === 'All tasks');
-  const allTasksIndex = allTasksProject.tasks.findIndex(t => t.id === task.id);
-  if (allTasksIndex !== -1) {
-    allTasksProject.tasks[allTasksIndex] = task;
+  const taskIndex = allTasksProject.tasks.findIndex(
+    t => t.id === updatedTask.id
+  );
+
+  if (taskIndex !== -1) {
+    allTasksProject.tasks[taskIndex] = updatedTask;
   }
 }
 
@@ -94,7 +97,7 @@ if (storedProjects && storedProjects !== 'undefined') {
   recreateTasks();
 }
 
-function saveProjects() {
+export function saveProjects() {
   localStorage.setItem('projects', JSON.stringify(projects));
 }
 

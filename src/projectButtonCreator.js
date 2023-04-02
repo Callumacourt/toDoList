@@ -25,6 +25,7 @@ const appendAProjectName = (project, tasksContainer) => {
   projectNameContainer.classList.add('projectNameContainer');
 
   const projectName = document.createElement('h2');
+  projectName.classList.add('projectName');
   projectName.textContent = project.name;
   projectNameContainer.appendChild(projectName);
 

@@ -2,7 +2,9 @@ import {
   addTaskToProject,
   projects,
   removeTaskFromProject,
+  saveProjects,
   TaskCreator,
+  updateTaskInAllTasks,
 } from './projects';
 
 export default function createAddTaskButton(project, tasksContainer) {
@@ -91,6 +93,9 @@ export default function createAddTaskButton(project, tasksContainer) {
         taskObj.description = taskDescription;
         taskObj.dueDate = taskDueDate;
         taskObj.priority = taskPriority;
+        updateTaskInAllTasks(taskObj);
+        saveProjects();
+
         addTaskForm.editingTaskElement.querySelector('.task-name').textContent =
           taskName;
         addTaskForm.editingTaskElement.querySelector(
