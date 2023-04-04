@@ -5,7 +5,7 @@ import {
   deleteProject,
   removeTaskFromProject,
   TaskCreator,
-} from './projects';
+} from './logicHandler';
 
 import createPageLayout from './domHandler';
 

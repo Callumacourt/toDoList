@@ -1,5 +1,5 @@
 import projectButtonCreator from './projectButtonCreator';
-import { projects } from './projects';
+import { projects } from './logicHandler';
 import createProjectAdder from './addProjectButton';
 import createAddTaskButton from './createAddTaskButton';
 

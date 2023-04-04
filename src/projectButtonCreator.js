@@ -1,5 +1,5 @@
 import createAddTaskButton, { renderTask } from './createAddTaskButton';
-import { deleteProject } from './projects';
+import { deleteProject } from './logicHandler';
 
 export function createProjectButton(project) {
   const projectButton = document.createElement('button');

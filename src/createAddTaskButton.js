@@ -5,7 +5,7 @@ import {
   saveProjects,
   TaskCreator,
   updateTaskInAllTasks,
-} from './projects';
+} from './logicHandler';
 
 export default function createAddTaskButton(project, tasksContainer) {
   let editingTaskElement = null;

@@ -1,4 +1,4 @@
-import { createProject, projects } from './projects';
+import { createProject, projects } from './logicHandler';
 import projectButtonCreator from './projectButtonCreator';
 
 const addProjectButton = document.createElement('button');
