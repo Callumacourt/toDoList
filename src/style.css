@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'Sublima';
+  src: url(/home/callumac/fonts/Sublima-Light.otf);
+}
+
+@font-face {
+  font-family: 'Sublima-bold';
+  src: url(/home/callumac/Fonts/Roboto-Italic.ttf);
+}
+
 * {
   list-style-type: none;
 }
@@ -5,6 +15,7 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: rgba(204, 204, 255, 1);
 }
 
 .headerContainer {
@@ -19,11 +30,17 @@ body {
   text-decoration: underline;
 }
 
+.headerContainer,
+.addProjectButton {
+  font-family: 'Sublima-bold' !important;
+}
+
 .main {
   display: grid;
   grid-template-columns: 1fr 4fr;
   height: 78vh;
   background-color: rgba(204, 204, 255, 1);
+  font-family: 'Sublima';
 }
 
 .tasksContainer {
@@ -314,4 +331,71 @@ p {
   grid-row-start: 2;
   max-width: 380px;
   word-wrap: break-word;
+}
+
+@media screen and (max-width: 767px) {
+  /* styles for screens 767px or smaller (most smartphones in landscape mode) */
+  .headerContainer {
+    font-size: 1.2rem;
+    height: 4vh;
+    border-bottom: none;
+  }
+
+  .main {
+    gap: 15px;
+  }
+  .projectsContainer {
+    height: 16.5vh;
+    overflow-y: scroll;
+  }
+
+  .tasksContainer {
+    height: 65vh;
+  }
+  .main {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .taskListContainer {
+    min-width: 80vw;
+  }
+  .taskListContainer button {
+    width: 80vw;
+  }
+  .projectName {
+    font-size: 1.5rem;
+  }
+  .projectButton {
+    font-size: 1rem;
+  }
+
+  .confirmInputBtn,
+  .cancelInputBtn {
+    padding: 1vmin 3.5vmin;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  .task {
+    font-size: 0.8rem !important;
+  }
+  .task-due-date {
+    display: none;
+  }
+
+  .footerContainer {
+    height: 7vh;
+  }
+
+  .high {
+    border-left: solid red 2vw !important;
+  }
+
+  .medium {
+    border-left: solid orange 2vw !important;
+  }
+
+  .task {
+    border-left: solid lightblue 2vw;
+    word-wrap: break-word;
+  }
 }
